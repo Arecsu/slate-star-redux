@@ -1,11 +1,22 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { posts as postsPromise } from '../lib/api.ts';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Await the same promise. The data is fetched only once.
+const allPosts = await postsPromise;
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Slate Star Codex Archive">
+  <header>
+    <h1>Slate Star Codex Archive</h1>
+    <p>A statically generated archive of all posts, sorted by newest first.</p>
+  </header>
+  
+  <ul class="post-list">
+    {allPosts.map(post => (
+      <li>
+        <a href={`/${post.slug}/`} set:html={post.title.rendered} />
+      </li>
+    ))}
+  </ul>
 </Layout>

@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.11.1"
+    "astro": "^5.11.1",
+    "wp-types": "^4.68.1"
   }
 }

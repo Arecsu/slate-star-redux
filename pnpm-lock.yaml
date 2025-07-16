@@ -11,6 +11,9 @@ importers:
       astro:
         specifier: ^5.11.1
         version: 5.11.1(@types/node@24.0.14)(rollup@4.45.1)(typescript@5.8.3)
+      wp-types:
+        specifier: ^4.68.1
+        version: 4.68.1
 
 packages:
 
@@ -1410,6 +1413,9 @@ packages:
   widest-line@5.0.0:
     resolution: {integrity: sha512-c9bZp7b5YtRj2wOe6dlj32MK+Bx/M/d+9VB2SHM1OtsUHR0aV0tdP6DWh/iMt0kWi1t5g1Iudu6hQRNd1A4PVA==}
     engines: {node: '>=18'}
+
+  wp-types@4.68.1:
+    resolution: {integrity: sha512-PpyF5va7pxdBSV8cE3oao/Wfsrbx1gZKmBaijOd6/Q6RmuzCfUSPHtj8RzAtwDYD8dv7cga5lX63TvYTHdOIZA==}
 
   wrap-ansi@9.0.0:
     resolution: {integrity: sha512-G8ura3S+3Z2G+mkgNRq8dqaFZAuxfsxpBB8OCTGRTCtp+l/v9nbFNmCUP1BZMts3G1142MsZfn6eeUKrr4PD1Q==}
@@ -3072,6 +3078,10 @@ snapshots:
   widest-line@5.0.0:
     dependencies:
       string-width: 7.2.0
+
+  wp-types@4.68.1:
+    dependencies:
+      typescript: 5.8.3
 
   wrap-ansi@9.0.0:
     dependencies:
