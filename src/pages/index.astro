@@ -2,21 +2,41 @@
 import Layout from '../layouts/Layout.astro';
 import { posts as postsPromise } from '../lib/api.ts';
 
-// Await the same promise. The data is fetched only once.
 const allPosts = await postsPromise;
+
+// 1) Group posts by year
+interface PostsByYear {
+  [year: number]: typeof allPosts;
+}
+const postsByYear: PostsByYear = allPosts.reduce((map: PostsByYear, post) => {
+  const year = new Date(post.date).getFullYear();
+  if (!map[year]) map[year] = [];
+  map[year].push(post);
+  return map;
+}, {});
+
+// 2) Sort years descending (newest first)
+const years = Object.keys(postsByYear)
+  .map(Number)
+  .sort((a, b) => b - a);
 ---
 
-<Layout title="Slate Star Codex Archive">
+<Layout title="Slate Star Redux">
   <header>
-    <h1>Slate Star Codex Archive</h1>
+    <h1>Slate Star Redux</h1>
     <p>A statically generated archive of all posts, sorted by newest first.</p>
   </header>
-  
-  <ul class="post-list">
-    {allPosts.map(post => (
-      <li>
-        <a href={`/${post.slug}/`} set:html={post.title.rendered} />
-      </li>
-    ))}
-  </ul>
+
+  {years.map(year => (
+    <>
+      <h2>{year}</h2>
+      <ul class="post-list">
+        {postsByYear[year].map(post => (
+          <li>
+            <a href={`/${post.slug}/`} set:html={post.title.rendered} />
+          </li>
+        ))}
+      </ul>
+    </>
+  ))}
 </Layout>
