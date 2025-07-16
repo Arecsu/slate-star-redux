@@ -1,0 +1,17 @@
+Slate Star Redux
+
+This is a layout experiment on top of the original Slate Star Codex blog.
+A modern, static rework focused on readability and clean CSS.
+
+Built with Astro.  
+No interactivity yet — just content and structure.
+
+Planned:
+- Reader settings with Svelte + CSS variables (text size, margins, color scheme, line-height, etc.) stored in local storage.
+- Lightweight interactivity without compromising performance. Site will be always performant, clean, responsive, and minimal.
+
+---
+
+Local dev:     pnpm run dev  
+Static build:  pnpm run build
+
