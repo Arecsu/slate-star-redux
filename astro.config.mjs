@@ -5,6 +5,8 @@ import svelte from "@astrojs/svelte"
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://arecsu.github.io',
+	base: 'slate-star-redux',
 	vite: {
 		css: {
 			preprocessorOptions: {

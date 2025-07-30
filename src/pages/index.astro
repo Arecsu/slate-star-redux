@@ -36,7 +36,7 @@ const years = Object.keys(postsByYear)
 				<ul class="post-list">
 					{postsByYear[year].map((post) => (
 						<li>
-							<a href={`/${post.slug}/`} set:html={post.title.rendered} />
+							<a href={`${post.slug}/`} set:html={post.title.rendered} />
 						</li>
 					))}
 				</ul>
