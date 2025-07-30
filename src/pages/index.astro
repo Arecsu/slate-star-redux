@@ -1,42 +1,62 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { posts as postsPromise } from '../lib/api.ts';
+import Layout from "@layouts/Layout.astro"
+import { posts as postsPromise } from "@lib/api.ts"
 
-const allPosts = await postsPromise;
+const allPosts = await postsPromise
 
-// 1) Group posts by year
 interface PostsByYear {
-  [year: number]: typeof allPosts;
+	[year: number]: typeof allPosts
 }
 const postsByYear: PostsByYear = allPosts.reduce((map: PostsByYear, post) => {
-  const year = new Date(post.date).getFullYear();
-  if (!map[year]) map[year] = [];
-  map[year].push(post);
-  return map;
-}, {});
+	const year = new Date(post.date).getFullYear()
+	if (!map[year]) map[year] = []
+	map[year].push(post)
+	return map
+}, {})
 
-// 2) Sort years descending (newest first)
 const years = Object.keys(postsByYear)
-  .map(Number)
-  .sort((a, b) => b - a);
+	.map(Number)
+	.sort((a, b) => b - a)
 ---
 
 <Layout title="Slate Star Redux">
-  <header>
-    <h1>Slate Star Redux</h1>
-    <p>A statically generated archive of all posts, sorted by newest first.</p>
-  </header>
+	<header>
+		<h1>Slate Star Redux</h1>
+		<p>
+			An alternative <a target="_blank" href="https://slatestarcodex.com/"
+				>Slate Star Codex</a
+			> frontend
+		</p>
+	</header>
 
-  {years.map(year => (
-    <>
-      <h2>{year}</h2>
-      <ul class="post-list">
-        {postsByYear[year].map(post => (
-          <li>
-            <a href={`/${post.slug}/`} set:html={post.title.rendered} />
-          </li>
-        ))}
-      </ul>
-    </>
-  ))}
+	{
+		years.map((year) => (
+			<>
+				<h2>{year}</h2>
+				<ul class="post-list">
+					{postsByYear[year].map((post) => (
+						<li>
+							<a href={`/${post.slug}/`} set:html={post.title.rendered} />
+						</li>
+					))}
+				</ul>
+			</>
+		))
+	}
 </Layout>
+
+<style lang="scss">
+	.post-list {
+		list-style-type: none;
+		padding: 0;
+	}
+	.post-list li {
+		margin-bottom: 0.5rem;
+		border-bottom: 1px solid var(--border-color);
+		padding-bottom: 0.5rem;
+	}
+	.post-list a {
+		font-size: 1.1rem;
+		font-weight: 500;
+	}
+</style>

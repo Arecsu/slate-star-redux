@@ -9,7 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/svelte": "^7.1.0",
     "astro": "^5.11.1",
+    "bits-ui": "^2.8.13",
+    "nanostores": "^1.0.1",
+    "sass": "^1.89.2",
+    "svelte": "^5.37.1",
+    "typescript": "^5.8.3",
     "wp-types": "^4.68.1"
+  },
+  "devDependencies": {
+    "unplugin-icons": "^22.2.0"
   }
 }

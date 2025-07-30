@@ -1,25 +1,43 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { posts as postsPromise } from '../lib/api.ts';
+import Layout from "@layouts/Layout.astro"
+import { posts as postsPromise } from "@lib/api.ts"
 
 export async function getStaticPaths() {
-  const allPosts = await postsPromise; // Await the single, cached promise
+	const allPosts = await postsPromise // Await the single, cached promise
 
-  return allPosts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+	return allPosts.map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}))
 }
 
-const { post } = Astro.props;
+const { post } = Astro.props
+
+const words = post.content.rendered.replace(/<[^>]*>/g, "").split(/\s+/).length
+const readingTime = Math.ceil(words / 225)
 ---
 
 <Layout title={post.title.rendered}>
-  <article>
-    <h1 set:html={post.title.rendered} />
-    <div class="post-meta">
-      Published on {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-    </div>
-    <Fragment set:html={post.content.rendered} />
-  </article>
+	<article>
+		<h1 set:html={post.title.rendered} />
+		<div class="post-meta">
+			Published on {
+				new Date(post.date).toLocaleDateString("en-US", {
+					year: "numeric",
+					month: "long",
+					day: "numeric",
+				})
+			}
+			&bull; {readingTime} min read
+		</div>
+		<Fragment set:html={post.content.rendered} />
+	</article>
 </Layout>
+
+<style lang="scss">
+	.post-meta {
+		color: #6c757d;
+		font-size: 0.9rem;
+		margin-bottom: 2rem;
+	}
+</style>
