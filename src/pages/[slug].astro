@@ -13,6 +13,30 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props
 
+// case-insensitive regex because wordpress likes it <A HREF>
+const linkRegex = /href="(https?:\/\/slatestarcodex\.com[^"]*)"/gi
+
+function replacer(_match: string, url: string) {
+	const path = new URL(url).pathname
+
+	// Check for blog post pattern: /YYYY/MM/DD/
+	const isPost = /\/\d{4}\/\d{2}\/\d{2}\//.test(path)
+
+	if (isPost) {
+		// It's a blog post, so extract the slug
+		const slug = path.split("/").filter(Boolean).pop()
+		return `href="${slug}/"`
+	}
+	// It's any other page, so prefix with /pages/
+	const pageSlug = path.replace(/^\/|\/$/g, "")
+	if (pageSlug) {
+		return `href="pages/${pageSlug}/"`
+	}
+	return 'href=""'
+}
+
+const processedContent = post.content.rendered.replaceAll(linkRegex, replacer)
+
 const words = post.content.rendered.replace(/<[^>]*>/g, "").split(/\s+/).length
 const readingTime = Math.ceil(words / 225)
 ---
@@ -30,7 +54,7 @@ const readingTime = Math.ceil(words / 225)
 			}
 			&bull; {readingTime} min read
 		</div>
-		<Fragment set:html={post.content.rendered} />
+		<Fragment set:html={processedContent} />
 	</article>
 </Layout>
 
